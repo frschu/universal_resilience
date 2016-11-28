@@ -1,0 +1,57 @@
+% Notes on the work for the master thesis. 
+% Starting on 11.10.2016 in Haifa. 
+% If articles are mentioned, they should by referenced!
+
+\documentclass[11pt]{article}
+
+\usepackage{amsmath}
+
+\begin{document}
+
+
+ 
+
+Inserting the definitions of $x_\mathrm{eff}$ and $\beta_\mathrm{eff}$ from Gao et al.'s paper, 
+
+\[ x_\mathrm{eff} = \frac{\sum_{ij} A_{ij} x_j}{\sum_{mn} A_{mn}}  \],
+
+and 
+
+\[ \beta_\mathrm{eff} = \frac{\sum_{ijk} A_{ij} A_{jk} }{\sum_{mn} A_{mn}}  \],
+
+we get 
+
+\begin{align}
+    \mathrm{err} 
+        &= 1 + \frac{
+            \alpha \left(\sum_{mn} A_{mn}\right) \left(\sum_{mn} A_{mn}\right)}{
+            - \alpha \left( \sum_{ijk} A_{ij} {A^{-1}}_{jk} \right) \left(\sum_{ijk} A_{ij} A_{jk}\right) } \\
+        &= 1 - \frac{\sum_{ijkl} A_{ij} A_{kl} }{ S \sum_{ijk} A_{ij} A_{jk} }
+\end{align}
+
+Now, if all entries are drawn independently from one distribution, $A_{ij} \sim p(\mu, \sigma^2)$,
+one can calculate the expected value 
+
+\[ \mathbb{E}\left[ \mathrm{err} \right] 
+= 1 - \mathbb{E} \left[ \frac{\sum_{ijkl} A_{ij} A_{kl} }{ S \sum_{ijk} A_{ij} A_{jk} }
+\right]    \].
+
+\begin{align}
+    \mathbb{E} \left[ \sum_{ijk} A_{ij} A_{jk} \right]  
+    &= \mathbb{E} \left[
+        \sum_{j, i \ne k} A_{ij} A_{jk} + \sum_{j \ne i} A_{ij} A_{ji} + \sum_{i} A_{ii}^2 \right] //
+    &= S^2 (S - 1) \mu^2 + S (S - 1) \mu^2 + S (\sigma^2 + \mu ^ 2)  //
+    &= S(S^2 \mu^2 + \sigma^2)
+\end{align}
+
+and
+
+\[
+    \mathbb{E} \left[ \sum_{ijkl} A_{ij} A_{kl} \right]  
+    = \mathbb{E} \left[
+    \sum_{(i, j) \ne (k, l)} A_{ij} A_{jk} + \sum_{(i, j)} A_{ij}^2
+    = (S^4  - S^2) \mu^2 + S^2(\simga^2 + \mu^2)
+    = S^2(S^2 \mu^2 + \sigma^2)
+\]
+
+\end{document}
