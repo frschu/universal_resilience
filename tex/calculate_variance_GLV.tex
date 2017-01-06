@@ -1,0 +1,425 @@
+% Preliminary results
+
+%%%%%%%%%%%%%%%%
+%%% Preamble %%%
+%%%%%%%%%%%%%%%%
+\documentclass[10pt]{article}
+
+% Encoding & Font
+\usepackage[utf8]{inputenc}                    % encoding
+\usepackage[T1]{fontenc}                       % encoding
+\usepackage{lmodern}                           %
+%% or
+%\usepackage{cmbright}
+%\renewcommand{\familydefault}{\sfdefault}      % font
+
+% Bibliography
+\usepackage[round]{natbib}                     % omit 'round' option if you prefer square brackets
+\bibliographystyle{plainnat}                   % style of bibliography
+
+% Math
+\usepackage{amsmath}                           % for all elaborate math 
+\usepackage{amssymb}                           % for \mathbb{R} = real numbers
+\usepackage{dsfont}                            % for \mathds{1} = identity matrix
+%\usepackage{mathtools}                         % further math stuff
+
+% Figures
+\usepackage{graphicx}
+\usepackage[font=small]{caption}                           % more options for caption  
+\usepackage[font=footnotesize]{subcaption}                        % subfloats
+\graphicspath{{../figures/}}                    % set path for figures
+\DeclareGraphicsExtensions{.pdf, .png, .jpg, .eps}     % extension of figures; priority = order of list
+
+% Set language
+\usepackage[american]{babel}				   % american / ngerman	
+\usepackage{hyperref}                          % hyperref e.g. to other documents; autoref
+
+%% Table
+%\newcommand{\myfloatalign}{\centering} % to be used with each float for alignment
+%\usepackage{diagbox, pict2e}    % \diagbox
+%\usepackage{colortbl}    % \rowcolor  
+%\usepackage{multirow}           % \multirow{n}{lcr}{content}
+%\definecolor{TableColor}{gray}{0.8}
+%%% Right aligned table cells with fixed length; e.g. x{2.5cm}
+%\newcolumntype{x}[1]{%
+%>{\raggedleft\hspace{0pt}}p{#1}}%
+%\newcommand{\tn}{\tabularnewline}
+%\newcommand{\tnn}{\tabularnewline[0.1cm]} % newline for costume table cells 
+%\let\mc\multicolumn
+%% Table title sections
+%\newcommand{\paramsheadline}[1]{\rowcolor{TableColor}\multicolumn{9}{l}{\spacedlowsmallcaps{#1}}}
+%\newcommand{\modelheadline}[1]{\rowcolor{TableColor}\multicolumn{2}{l}{\spacedlowsmallcaps{#1}}}
+
+\usepackage{tabu}
+
+
+%%%%%%%%%%%%
+%%% Main %%%
+%%%%%%%%%%%%
+\begin{document}
+
+\section{Introduction}
+\label{sec:introduction}
+
+We are interested in the accuracy of the dimensional reduction proposed by Gao et al.
+In order to determine the accuracy, we define an error as the distance between a reduced 
+fixed point and the fixed point of the reduced system. We then calculate the expected value and the 
+fluctuation of this error analytically for a system of generalized Lotka-Volterra equations 
+and specific random interaction matrices $A$. 
+
+Define errors in $x$ and $\beta$ direction:
+
+\begin{align}
+    \mathrm{err}_x &= 1 - \frac{x(\beta_\mathrm{eff})}{x_\mathrm{eff}} \,, \\
+    \mathrm{err}_\beta &= 1 - \frac{\beta(x_\mathrm{eff})}{\beta_\mathrm{eff}} \,.
+\end{align}
+
+For the GLV they coincide since  the fixed point in the reduced system is
+
+\begin{equation}
+    x(\beta_\mathrm{eff}) = - \frac{\alpha}{\beta_\mathrm{eff}} \,,
+\end{equation}
+
+such that both errors become
+
+\begin{equation}
+    \mathrm{err} = 1 + \frac{\alpha}{x_\mathrm{eff} \beta_\mathrm{eff}} \,.
+\end{equation}
+
+Inserting the definitions of $x_\mathrm{eff}$ and $\beta_\mathrm{eff}$ from Gao et al.'s paper, 
+
+\begin{align}
+    x_\mathrm{eff} &= \frac{\sum_{ij} A_{ij} x_j}{\sum_{mn} A_{mn}} \,, \\  
+    \beta_\mathrm{eff} &= \frac{\sum_{ijk} A_{ij} A_{jk} }{\sum_{mn} A_{mn}},
+\end{align}
+
+we get 
+
+\begin{equation}
+    \begin{split}
+        \mathrm{err} 
+            &= 1 + \frac{\alpha \left(\sum_{mn} A_{mn}\right) \left(\sum_{mn} A_{mn}\right)   
+                }{- \alpha \left( \sum_{ijk} A_{ij} {A^{-1}}_{jk} \right) \left(\sum_{ijk} A_{ij} A_{jk}\right)}  \\ 
+            &= 1 - \frac{\sum_{ijkl} A_{ij} A_{kl} }{ S \sum_{ijk} A_{ij} A_{jk} } \\
+            &= 1 - \frac{n}{d} \,,
+    \end{split}
+\end{equation}
+
+where we defined
+
+\begin{align}
+    n &:= \sum_{ijkl} A_{ij}A_{kl} \,, \\
+    d &:= S \cdot \sum_{ijk} A_{ij}A_{jk} \,, 
+\end{align}
+
+and the $A_{ij}$ are the entries of the interaction matrix $A$.
+
+In order to calculate the expected value and variance analytically, 
+we make one key assumption, namely that the expected values of numerator and denominator 
+of the error and its square can be taken independently of each other. This approximation 
+should work well for strictly positive entries $A_{ij} > 0$ with vanishing probability density 
+close to 0. For $A_{ij}$ not following this constraint, the actual analytical expected value is
+expected to explode. Note that this behaviour may not be observed when sampling $A_{ij}$, because 
+the probability associated with the denominator being zero may be very small. 
+
+Making this approximation, we get
+
+\begin{equation}
+     \mathbb{E}[\mathrm{err}] = \mathbb{E}\left[1 - \frac{n}{d}\right] \approx 1 - \frac{\mathbb{E}[n]}{\mathbb{E}[d]} \,,
+\end{equation}
+
+and for the variance
+
+\begin{equation}
+    \label{eq:Eerr}
+ \mathrm{Var}(\mathrm{err}) = \mathbb{E}\left[\left(\mathrm{err} - \mathbb{E}[\mathrm{err}]\right)^2\right]
+ = \mathbb{E}\left[\left(
+ \frac{d \mathbb{E}[n] - n \mathbb{E}[d]}{d \mathbb{E}[d]}
+ \right)^2\right]
+\end{equation}
+
+we have
+ 
+\begin{equation}
+    \label{eq:varerr}
+    \mathrm{Var}(\mathrm{err}) \approx 
+    \frac{\mathbb{E}[d^2]\mathbb{E}[n]^2 - 2 \mathbb{E}[nd]\mathbb{E}[n] \mathbb{E}[d] + \mathbb{E}[n^2]\mathbb{E}[d]^2}
+    {\mathbb{E}[d^2]\mathbb{E}[d]^2} \,.
+\end{equation}
+
+By automatizing the combinatorial problems associated with the sums, we calculate both values, as described in the next section.
+
+\section{Description of the algorithm}
+\label{sec:description_of_the_algorithm}
+
+As stated above, we want assess the expected value \autoref{eq:Eerr} 
+and variance \autoref{eq:varerr} of the error. Hence, we need to calculate the terms
+
+\begin{align}
+    \mathbb{E}[d]         &= S \cdot \mathbb{E}\left[ \sum_{ija} A_{ia}A_{aj} \right] \,; \\ 
+    \mathbb{E}[n]         &= \mathbb{E} \left[ \sum_{ijkl} A_{ij}A_{kl} \right]  \,;   \\ 
+    \mathbb{E}[d^2]       &= S^2 \cdot \mathbb{E} \left[ \sum_{ijklab} A_{ia}A_{aj}A_{kb}A_{bj} \right]  \,;   \\
+    \mathbb{E}[n \cdot d] &= S \cdot \mathbb{E} \left[ \sum_{ijklmna} A_{ij}A_{kl}A_{ma}A_{an} \right]  \,;  \\
+    \mathbb{E}[n^2]       &= \mathbb{E} \left[ \sum_{ijklmnop} A_{ij}A_{kl}A_{mn}A_{op} \right]   
+\end{align}
+
+where all indices are iterated over $\{1, 2, ..., S\}$. In the simplest version of interaction matrix $A$, 
+the entries $A_{ij}$ are all i.d.d. and we need to separate out pairs $A_{ij}^2$ as they will lead to contributions 
+other than $\mu^2$, where $\mu = \mathbb{E}[A_{ij}]$ (and similarly for higher order tuples).
+In order to do so, we devised an algorithm which is described for the simple example of $\mathbb{E}[n]$, 
+which may even be calculated by hand quite easily. It consists of the following steps: 
+
+\begin{enumerate}
+    \item \textbf{Generation of a feasible index combination.}
+        Such a combination like $(i = j \ne k \ne l, i \ne l)$ is encoded in the upper triangle of a $4 \times 4$ 
+        boolean matrix, which in this case would look like  
+
+        \begin{equation}
+        P = \begin{bmatrix}
+          - & T & F & F\\
+          - & - & F & F\\
+          - & - & - & F\\
+          - & - & - & - 
+         \end{bmatrix}  \,.
+        \end{equation}
+         
+        Here, $P_{ij} = T$ implies that the $i$-th index is equal to the $j$-th index ($F$ for $\ne$), numbering
+        the indices as $(i, j, k, l) \sim (0, 1, 2, 3)$. We dump non-feasible combinations such as   
+
+        \begin{equation}
+        P_\mathrm{illegal} = \begin{bmatrix}
+          - & T & F & F\\
+          - & - & F & T\\
+          - & - & - & F\\
+          - & - & - & - 
+         \end{bmatrix} \,.
+        \end{equation}
+     
+    \item\textbf{Calculating the number of terms $n_P$ associated with $P$.}
+        In order to do so, we sort the indices into cliques containing only equal ones. The number of cliques, called multiplicity factor $m_P$ is directly related to the number of terms by
+
+        \begin{equation}
+         n_P = S (S - 1) ... (S - m_P) = \prod_{\alpha = 0}^{m_P - 1} (S - \alpha)   \,.
+        \end{equation}
+
+    \item\textbf{Project the matrix $P$ down to a $2 \times 2$ boolean matrix $R_P$.} 
+        This matrix encodes whether the actual random variables $X = A_{ij}$ and $Y = A_{kl}$ are equal. 
+        We have $X = Y$ only if $i = k$ and $j = l$, which in terms of the matrices $P$ and $R_P$ is
+        stated as
+
+        \begin{equation}
+            R_{01}(P) = P_{02} \land P_{13} \,.
+        \end{equation}
+                
+    \item\textbf{Calculating actual cliques $\mathcal{C}(R(P))$.}
+        In this case, the only possible cliques are $XY$ or $X^2$, trivially encoded by $R_{01}(P)$. 
+
+    \item\textbf{Add contribution to overall sum.}
+        Each clique is associated with a specific factor arising from taking the expected value. 
+        In this case, we only have  
+
+        \begin{equation}
+            \mathbb{E}[XY] = \mu^2  \qquad \text{and} \qquad \mathbb{E}[X^2] = \sigma^2 + \mu^2 \,.  
+        \end{equation}
+
+        We sum each term multiplied by the multiplicity $n_P$, iterating over all feasible index matrices $P$
+        to get the corresponding expected value
+
+        \begin{equation}
+            \mathbb{E}[d] = S \cdot \sum_P n_P \, \mathbb{E}[\mathcal{C}(R(P))] \,.
+        \end{equation}
+
+\end{enumerate}
+
+To incorporate correlation of transposed entries, we make use of the lower triangle of $R$. 
+In this example, we have $A_{ij} = X$ and $A_{kl} = A_{ji} = X^T$ only if $i = l$, $j = k$ 
+and $(i, j) \ne (k, l)$, that is
+
+\begin{equation}
+    R_{10}(P) = P_{03} \land P_{12} \land \lnot R_{01}(P) \,.
+\end{equation}
+ 
+The associated clique has the expected value
+
+\begin{equation}
+    \mathbb{E}[X X^T] = \rho \sigma^2 + \mu^2 \,.
+\end{equation}
+
+If we finally want to allow for the diagonal elements to be drawn from a different distribution, 
+we employ the free diagonal in a similar manner. In this example:
+
+\begin{equation}
+    R_{00}(P) = P_{01}, \qquad \qquad R_{11}(P) = P_{23} \,,  
+\end{equation}
+
+and the associated expected values
+
+\begin{equation}
+    \mathbb{E}[XY_d] = \mu\mu_d, \qquad \mathbb{E}[X_dY_d] = \mu_d^2, \qquad \mathbb{E}[X_d^2] = \sigma_d^2 + \mu_d^2\,.
+\end{equation}
+
+For the second order terms, $R$ becomes a $4 \times 4$ boolean matrix, and the full set of possible cliques
+becomes both larger (30 terms for both correlation and specific diagonal) and more complicated 
+(incorporating higher moments such as $\mathbb{E}[X^3Y]$). 
+
+
+\section{Results}
+\label{sec:results}
+
+The analytical expressions for expected value and variance of the error
+for different cases of interaction matrices $A$ are listed in \autoref{tab:results}.
+We approximated the expressions to the highest order in the network size $S$, 
+as we want to look at large networks.
+
+We summarize these results by making the following observations:
+\begin{itemize}
+        \item 
+        In all cases, the error (or its fluctuations) grows without bound if the ratio $\frac{\mu}{\sigma}$ goes to zero 
+ for a given network size $S$.
+ 
+\item The order of the fluctuations (namely $S^{-\frac{3}{2}}$) remains the same for all cases,
+    while the order of the expected value changes. Thus,
+ \begin{itemize}
+     \item  for interaction matrices $A$ without correlation ($\rho = 0$), the term dominating the error for large $S$ 
+         are the fluctuations while the mean value is either zero (for iid entries $A_{ij}$)
+         or of order $S^{-2}$ (in case of a constant diagonal);
+     \item for networks with non-zero correlation, the mean becomes the dominating term of order $S^{-1}$.  
+ \end{itemize}
+
+ \item  If the diagonal is of the same scale as $S$, the error may explode. This happens if
+     $A_{ii} = - d_c$, where $d_c = (S - 1) \mu$  corresponds to the value of $d$ where the 
+     interaction matrix becomes stable and non-reactive for positive $\mu$. 
+\end{itemize}   
+
+In order to test these analytical results, we sampled the interaction matrix with
+the corresponding statistics numerically and compared the empirical mean 
+and standard deviation with the theoretical predictions. 
+The results can be observed in \autoref{fig:comparison}. 
+In all cases, the theoretical prediction is met very well. 
+There is a notable but small deviation for small network sizes  $S = 20$, 
+namely slight underestimation of the mean for the case of correlation, 
+cf. \autoref{fig:rho_03}and \autoref{fig:rho_-07}. 
+
+Note that for the case of a constant diagonal close to the critical value,
+shown in \autoref{fig:effect_of_constant_diag}, 
+the theoretical value is not expected to give a good 
+approximation to the empirical average, since in this case, 
+the expected value of the denominator $\mathbb{E}[d]$ becomes 
+zero. In this case, the approximation of taking numerator 
+and denominator separately is not justified. Furthermore, 
+sampling becomes difficult, as outliers may govern the empirical 
+mean and standard deviation. 
+
+
+\begin{table}[h]
+    \centering
+    \caption[Results]{Resulting analytical expressions, approximated to highest order in $S$. 
+        }
+    \label{tab:model_description}
+    \small
+    {\tabulinesep=1.2mm
+       \begin{tabu} {b{5.cm} p{3.cm} p{3.cm}}
+            \textbf{Case} & $\mathbb{E}[\mathrm{err}]$ & $\mathrm{Var}(\mathrm{err})$ \\
+           \hline
+    $A_{ij}$ i.i.d.                    & $0$ (exact)                     & $\frac{\sigma^4}{S^3 \mu^4}$   \\
+    \vspace{1.mm}
+    Correlation: &&\\
+    $\rho = \frac{\mathrm{Cov}(A_{ij}A_{ji})}{\sigma^2}  \in [-1, 1]$     & $\frac{\rho \sigma^2}{S\mu^2}$ & $\frac{\sigma^4 \left(2\frac{\mu^2}{\sigma^2} \rho + (\rho - 1)^2\right) }{S^3 \mu^4} $   \\ 
+    \vspace{1.mm}
+    Constant diagonal: &&\\
+    $A_{ii} = -d$ of order $1$ or $\sqrt{S}$    & $\frac{\sigma^2\left((S - 2)\rho - 1\right)}{S^2\mu^2}$ & $\frac{\sigma^4 \left(2\frac{\mu^2}{\sigma^2} \rho + (\rho - 1)^2\right)}{S^3 \mu^4} $   \\
+    $\qquad$ for $\rho = 0$   & -$\frac{\sigma^2}{S^2\mu^2}$ & $\frac{\sigma^4}{S^3 \mu^4} $   \\
+    $\qquad$ for $\rho \ne 0$ & $\frac{\sigma^2\rho}{S\mu^2}$ & $\frac{\sigma^4 \left(2\frac{\mu^2}{\sigma^2} \rho + (\rho - 1)^2\right)}{S^3 \mu^4} $   \\
+    $A_{ii} = -\alpha (S - 1) \mu$ & $\frac{\sigma^2\left((S - 2)\rho - 1\right)}{S^2\mu^2(\alpha - 1)^2}$ & $\frac{\sigma^4 \left(2\frac{\mu^2}{\sigma^2} \rho + (\rho - 1)^2\right)}{S^3 \mu^4(\alpha - 1)^4} $   \\
+    $\qquad$ for $\rho = 0$   & -$\frac{\sigma^2}{S^2\mu^2(\alpha - 1)^2}$ & $\frac{\sigma^4 }{S^3 \mu^4(\alpha - 1)^4} $  \\
+    $\qquad$ for $\rho \ne 0$ & $\frac{\sigma^2\rho}{S\mu^2(\alpha - 1)^2}$ & $\frac{\sigma^4 \left(2\frac{\mu^2}{\sigma^2} \rho + (\rho - 1)^2\right)}{S^3 \mu^4(\alpha - 1)^4} $ \\\hline
+    \label{tab:results}
+   \end{tabu}}
+\end{table}
+
+\begin{figure}[tb]
+    \begin{subfigure}{.47\textwidth}
+      \centering
+        \includegraphics[width=1.0\linewidth]{A_iid}
+        \caption[A iid]{ 
+            All elements i.i.d.
+            %$A_{ij}~\sim~\mathcal{N}(\mu = 1, \sigma^2 = 1)$ i.i.d.
+        }
+        \label{fig:A_iid}
+    \end{subfigure}%
+    \begin{subfigure}{.47\textwidth}
+        \centering
+        \includegraphics[width=1.0\linewidth]{rho_03}
+        \caption[rho 0.3]{
+            Positive correlation:
+            $\rho = 0.3$. 
+            %$A_{ij} \sim \mathcal{N}(\mu = 1, \sigma^2 = 1)$, 
+        }
+        \label{fig:rho_03}
+    \end{subfigure} 
+\vspace{0.5cm}
+\\
+    \begin{subfigure}{.47\textwidth}
+      \centering
+        \includegraphics[width=1.0\linewidth]{rho_-07}
+        \caption[rho -0.7]{
+            Negative correlation:
+            $\rho = -0.7$. 
+            %$A_{ij} \sim \mathcal{N}(\mu = 1, \sigma^2 = 1)$, 
+        }
+        \label{fig:rho_-07}
+    \end{subfigure}
+    \begin{subfigure}{.47\textwidth}
+      \centering
+        \includegraphics[width=1.0\linewidth]{const_diag_no_correlation}
+        \caption[rho -0.7]{
+            Constant diagonal and no correlation:
+        $A_{ii} = -2 d_c, \rho = 0$.
+        }
+        \label{fig:const_diag_no_correlation}
+    \end{subfigure}
+\vspace{0.5cm}
+\\
+    \begin{subfigure}{.47\textwidth}
+        \centering
+        \includegraphics[width=1.0\linewidth]{effect_of_correlation_no_const_diag}
+        \caption[Effect of correlation]{
+            Sampling for varying correlation $\rho \in [-1, 1]$ (no specific diagonal).
+        }
+        \label{fig:effect_of_correlation_no_const_diag}
+    \end{subfigure}
+    \begin{subfigure}{.47\textwidth}
+        \centering
+        \includegraphics[width=1.0\linewidth]{effect_of_constant_diag}
+        \caption[Exploding error]{
+            Sampling for varying constant diagonal $A_{ii} = -\alpha d_c$,
+            $\alpha \in [0.6, 1.4]$ (no correlation).
+        }
+        \label{fig:effect_of_constant_diag}
+    \end{subfigure}
+
+    \caption{Comparison of theoretical results with numerical samples. 
+    For each point on the respective x-axis, we sampled 100 
+    (500 for figure \ref{fig:effect_of_constant_diag}) 
+    matrices independently and calculated empirical mean and standard deviation
+    of the resulting errors, plotted as red and green dots, respectively. 
+    The theoretical mean is plotted as a green line, the shaded area indicates
+    the standard deviation from this mean. 
+    For all figures, $\mu = \sigma = 1$. Note that the absolute magnitudes 
+    of the errors differs between each plot. 
+}
+    \label{fig:comparison}
+\end{figure}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
+
+
+%%%%%%%%%%%%%%%%%%%%
+%%% Bibliography %%% 
+%%%%%%%%%%%%%%%%%%%%
+%\newpage
+\pagestyle{empty}
+\bibliography{../database}
+
+\end{document}
