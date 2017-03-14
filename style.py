@@ -168,12 +168,20 @@ def add_subplot(fig,
     return ax
 
 def saving_fig(fig, figure_path, fig_name, data_type="png"):
-    print("save figure to " + fig_name) 
+    print("Save figure to " + os.path.join(figure_path, fig_name) )
     if data_type == "png":
         fig.savefig(os.path.join(figure_path, fig_name + ".png"), 
                 dpi=1000, # This is simple recommendation for publication plots
                 bbox_inches='tight', format="png") 
     elif data_type == "pdf":
+        fig.savefig(os.path.join(figure_path, fig_name + ".pdf"), 
+                dpi=1000, # This is simple recommendation for publication plots
+                bbox_inches='tight', format="pdf")
+    else:
+        # Both
+        fig.savefig(os.path.join(figure_path, fig_name + ".png"), 
+                dpi=1000, # This is simple recommendation for publication plots
+                bbox_inches='tight', format="png") 
         fig.savefig(os.path.join(figure_path, fig_name + ".pdf"), 
                 dpi=1000, # This is simple recommendation for publication plots
                 bbox_inches='tight', format="pdf")

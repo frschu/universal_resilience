@@ -301,7 +301,7 @@ namely slight underestimation of the mean for the case of correlation,
 cf. \autoref{fig:rho_03}and \autoref{fig:rho_-07}. 
 
 Note that for the case of a constant diagonal close to the critical value,
-shown in \autoref{fig:effect_of_constant_diag}, 
+shown in \autoref{fig:vary_d_rho_0}, 
 the theoretical value is not expected to give a good 
 approximation to the empirical average, since in this case, 
 the expected value of the denominator $\mathbb{E}[d]$ becomes 
@@ -318,21 +318,38 @@ mean and standard deviation.
     \label{tab:model_description}
     \small
     {\tabulinesep=1.2mm
-       \begin{tabu} {b{5.cm} p{3.cm} p{3.cm}}
+       \begin{tabu} {b{4cm} p{2.5cm} p{4.5cm}}
             \textbf{Case} & $\mathbb{E}[\mathrm{err}]$ & $\mathrm{Var}(\mathrm{err})$ \\
            \hline
-    $A_{ij}$ i.i.d.                    & $0$ (exact)                     & $\frac{\sigma^4}{S^3 \mu^4}$   \\
+    $A_{ij}$ i.i.d.                    & $0$ (exact)                     & $\frac{\sigma^4}{S^3 \mu^4}$ \\
     \vspace{1.mm}
+
     Correlation: &&\\
-    $\rho = \frac{\mathrm{Cov}(A_{ij}A_{ji})}{\sigma^2}  \in [-1, 1]$     & $\frac{\rho \sigma^2}{S\mu^2}$ & $\frac{\sigma^4 \left(2\frac{\mu^2}{\sigma^2} \rho + (\rho - 1)^2\right) }{S^3 \mu^4} $   \\ 
+    $\rho = \mathrm{corr}(A_{ij}, A_{ji}) \in [-1, 1]$     
+        & $\frac{\rho \sigma^2}{S\mu^2}$ 
+        & $\frac{\sigma^4}{S^3 \mu^4} \left(2\frac{\mu^2}{\sigma^2} \rho + (\rho - 1)^2\right) $ \\ 
     \vspace{1.mm}
+
     Constant diagonal: &&\\
-    $A_{ii} = -d$ of order $1$ or $\sqrt{S}$    & $\frac{\sigma^2\left((S - 2)\rho - 1\right)}{S^2\mu^2}$ & $\frac{\sigma^4 \left(2\frac{\mu^2}{\sigma^2} \rho + (\rho - 1)^2\right)}{S^3 \mu^4} $   \\
-    $\qquad$ for $\rho = 0$   & -$\frac{\sigma^2}{S^2\mu^2}$ & $\frac{\sigma^4}{S^3 \mu^4} $   \\
-    $\qquad$ for $\rho \ne 0$ & $\frac{\sigma^2\rho}{S\mu^2}$ & $\frac{\sigma^4 \left(2\frac{\mu^2}{\sigma^2} \rho + (\rho - 1)^2\right)}{S^3 \mu^4} $   \\
-    $A_{ii} = -\alpha (S - 1) \mu$ & $\frac{\sigma^2\left((S - 2)\rho - 1\right)}{S^2\mu^2(\alpha - 1)^2}$ & $\frac{\sigma^4 \left(2\frac{\mu^2}{\sigma^2} \rho + (\rho - 1)^2\right)}{S^3 \mu^4(\alpha - 1)^4} $   \\
-    $\qquad$ for $\rho = 0$   & -$\frac{\sigma^2}{S^2\mu^2(\alpha - 1)^2}$ & $\frac{\sigma^4 }{S^3 \mu^4(\alpha - 1)^4} $  \\
-    $\qquad$ for $\rho \ne 0$ & $\frac{\sigma^2\rho}{S\mu^2(\alpha - 1)^2}$ & $\frac{\sigma^4 \left(2\frac{\mu^2}{\sigma^2} \rho + (\rho - 1)^2\right)}{S^3 \mu^4(\alpha - 1)^4} $ \\\hline
+    $A_{ii} = -d$ of order $1$ or $\sqrt{S}$    
+        & $\frac{\sigma^2\left((S - 2)\rho - 1\right)}{S^2\mu^2}$ 
+        & $\frac{\sigma^4}{S^3 \mu^4} \left(2\frac{\mu^2}{\sigma^2} \rho + (\rho - 1)^2\right) $ \\ 
+    $\qquad$ for $\rho = 0$   
+        & -$\frac{\sigma^2}{S^2\mu^2}$ 
+        & $\frac{\sigma^4}{S^3 \mu^4} $ \\
+    $\qquad$ for $\rho \ne 0$ 
+        & $\frac{\sigma^2\rho}{S\mu^2}$ 
+        & $\frac{\sigma^4}{S^3 \mu^4} \left(2\frac{\mu^2}{\sigma^2} \rho + (\rho - 1)^2\right) $ \\ 
+
+    $A_{ii} = -d$ of order $S$ 
+        & $\frac{\sigma^2\left((S - 2)\rho - 1\right)}{S^2\mu^2\left(\frac{d}{d_c} - 1\right)^2}$ 
+        & $\frac{\sigma^4}{S^3 \mu^4\left(\frac{d}{d_c} - 1\right)^4}\left(2\frac{\mu^2}{\sigma^2} \rho + (\rho - 1)^2\right)$ \\
+    $\qquad$ for $\rho = 0$   
+        & -$\frac{\sigma^2}{S^2\mu^2\left(\frac{d}{d_c} - 1\right)^2}$ 
+        & $\frac{\sigma^4 }{S^3 \mu^4\left(\frac{d}{d_c} - 1\right)^4} $  \\
+    $\qquad$ for $\rho \ne 0$ 
+        & $\frac{\sigma^2\rho}{S\mu^2\left(\frac{d}{d_c} - 1\right)^2}$ 
+        & $\frac{\sigma^4}{S^3 \mu^4\left(\frac{d}{d_c} - 1\right)^4}\left(2\frac{\mu^2}{\sigma^2} \rho + (\rho - 1)^2\right)$ \\ \hline
     \label{tab:results}
    \end{tabu}}
 \end{table}
@@ -340,17 +357,16 @@ mean and standard deviation.
 \begin{figure}[tb]
     \begin{subfigure}{.47\textwidth}
       \centering
-        \includegraphics[width=1.0\linewidth]{A_iid}
-        \caption[A iid]{ 
+        \includegraphics[width=1.0\linewidth]{error_GLV_A_iid}
+        \caption{ 
             All elements i.i.d.
-            %$A_{ij}~\sim~\mathcal{N}(\mu = 1, \sigma^2 = 1)$ i.i.d.
         }
         \label{fig:A_iid}
     \end{subfigure}%
     \begin{subfigure}{.47\textwidth}
         \centering
-        \includegraphics[width=1.0\linewidth]{rho_03}
-        \caption[rho 0.3]{
+        \includegraphics[width=1.0\linewidth]{error_GLV_rho_03}
+        \caption{
             Positive correlation:
             $\rho = 0.3$. 
             %$A_{ij} \sim \mathcal{N}(\mu = 1, \sigma^2 = 1)$, 
@@ -361,8 +377,8 @@ mean and standard deviation.
 \\
     \begin{subfigure}{.47\textwidth}
       \centering
-        \includegraphics[width=1.0\linewidth]{rho_-07}
-        \caption[rho -0.7]{
+        \includegraphics[width=1.0\linewidth]{error_GLV_rho_-07}
+        \caption{
             Negative correlation:
             $\rho = -0.7$. 
             %$A_{ij} \sim \mathcal{N}(\mu = 1, \sigma^2 = 1)$, 
@@ -371,42 +387,65 @@ mean and standard deviation.
     \end{subfigure}
     \begin{subfigure}{.47\textwidth}
       \centering
-        \includegraphics[width=1.0\linewidth]{const_diag_no_correlation}
-        \caption[rho -0.7]{
-            Constant diagonal and no correlation:
-        $A_{ii} = -2 d_c, \rho = 0$.
+        \includegraphics[width=1.0\linewidth]{error_GLV_d_2_rho_0}
+        \caption{
+            Constant diagonal $A_{ii} = -2 d_c, \rho = 0$.
         }
-        \label{fig:const_diag_no_correlation}
+        \label{fig:d_2_rho_0}
     \end{subfigure}
 \vspace{0.5cm}
 \\
     \begin{subfigure}{.47\textwidth}
         \centering
-        \includegraphics[width=1.0\linewidth]{effect_of_correlation_no_const_diag}
-        \caption[Effect of correlation]{
-            Sampling for varying correlation $\rho \in [-1, 1]$ (no specific diagonal).
+        \includegraphics[width=1.0\linewidth]{error_GLV_vary_rho_no_d}
+        \caption{
+            Varying correlation, no specific diagonal.
         }
-        \label{fig:effect_of_correlation_no_const_diag}
+        \label{fig:vary_rho_no_d}
     \end{subfigure}
     \begin{subfigure}{.47\textwidth}
         \centering
-        \includegraphics[width=1.0\linewidth]{effect_of_constant_diag}
-        \caption[Exploding error]{
-            Sampling for varying constant diagonal $A_{ii} = -\alpha d_c$,
-            $\alpha \in [0.6, 1.4]$ (no correlation).
+        \includegraphics[width=1.0\linewidth]{error_GLV_vary_d_rho_0}
+        \caption{
+            Varying constant diagonal, no correlation.
         }
-        \label{fig:effect_of_constant_diag}
+        \label{fig:vary_d_rho_0}
     \end{subfigure}
 
     \caption{Comparison of theoretical results with numerical samples. 
-    For each point on the respective x-axis, we sampled 100 
-    (500 for figure \ref{fig:effect_of_constant_diag}) 
-    matrices independently and calculated empirical mean and standard deviation
-    of the resulting errors, plotted as red and green dots, respectively. 
-    The theoretical mean is plotted as a green line, the shaded area indicates
-    the standard deviation from this mean. 
-    For all figures, $\mu = \sigma = 1$. Note that the absolute magnitudes 
-    of the errors differs between each plot. 
+        Each blue dot corresponds to the error calculated for one 
+        interaction matrix. We sampled 500 matrices independently and 
+        calculated empirical means $\mu_\mathrm{err}$ and standard deviations $\sigma_\mathrm{err}$
+        (plotted as red and green dots, respectively).
+        The theoretical mean $\mathbb{E}[\mathrm{err}]$ is plotted as a red line, 
+        the shaded area indicates the predicted standard deviation $\mathrm{std}(\mathrm{err})$. 
+    For all figures, $\mu = \sigma = 1$, network size for (e) and (f): $S = 50$.
+}
+    \label{fig:comparison}
+\end{figure}
+
+% More figures
+\begin{figure}[tb]
+    \begin{subfigure}{.47\textwidth}
+      \centering
+        \includegraphics[width=1.0\linewidth]{error_GLV_vary_mu_sigma_rho_0}
+        \caption{ 
+        Varying mean $\mu$ for $\sigma = 0.5, \rho = 0$.
+        }
+        \label{fig:vary_mu_sigma_rho_0}
+    \end{subfigure}%
+    \begin{subfigure}{.47\textwidth}
+      \centering
+        \includegraphics[width=1.0\linewidth]{error_GLV_vary_mu_sigma_rho_02}
+        \caption{ 
+        Varying mean $\mu$ for $\sigma = 0.5, \rho = 0.2$.
+        }
+        \label{fig:vary_mu_sigma_rho_02}
+    \end{subfigure}%
+%\vspace{0.5cm}
+%\\
+
+    \caption{Comparison of theoretical results with numerical samples, part 2.
 }
     \label{fig:comparison}
 \end{figure}
